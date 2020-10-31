@@ -12,6 +12,8 @@
 #include <objbase.h>
 #include <windows.h>
 #include <wingdi.h>
+#include <dwmapi.h>
+#include <winrt/Windows.UI.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Web.UI.Interop.h>
 #include <winrt/Windows.Foundation.Collections.h>
@@ -139,6 +141,11 @@ public:
         m_window = CreateWindowEx(0, L"webview", window_title, style, 0, 0, 0, 0,
                      HWND_DESKTOP, NULL, hInstance, (void *)this);
         SysFreeString(window_title);
+
+        // Hidden API for dark-themed title bar
+        // TODO: Make this more modular, maybe PR to web-view?
+        const BOOL is_dark = true;
+        DwmSetWindowAttribute(m_window, 20, &is_dark, sizeof(is_dark));
 
         // Have to call this before SetWindowPos or it will crash!
         SetWindowLongPtr(m_window, GWLP_USERDATA, (LONG_PTR)this);

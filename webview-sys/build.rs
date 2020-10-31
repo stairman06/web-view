@@ -27,7 +27,7 @@ fn main() {
                 .file("webview_edge.cpp")
                 .flag_if_supported("/std:c++17");
 
-            for &lib in &["windowsapp", "user32", "gdi32", "ole32"] {
+            for &lib in &["windowsapp", "user32", "gdi32", "ole32", "dwmapi"] {
                 println!("cargo:rustc-link-lib={}", lib);
             }
         } else {
